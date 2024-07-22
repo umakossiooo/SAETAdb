@@ -1,0 +1,26 @@
+{
+  "name": "saetadb",
+  "version": "1.0.0",
+  "description": "Course administration system",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron Oviedo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.14.11",
+    "concurrently": "^8.2.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4",
+    "typescript": "^5.5.3"
+  }
+}
