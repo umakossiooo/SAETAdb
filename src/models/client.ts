@@ -1,46 +1,21 @@
 import {Table, Model, Column, CreatedAt, UpdatedAt, DataType} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 
-interface ProductAttributes{
-  id: number;
-  title: string;
-  description: string;
-  price: number ;
-  discountPercentage: number ;
-  rating: number ;
-  stock: number ;
+interface ClientAttributes{
+  id: string;
+  personId:string;
 }
 
-interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'>{}
+interface ClientCreationAttributes extends Optional<ClientAttributes, 'id'>{}
 
 @Table ({
-  tableName: "Products"
+  tableName: "Clients"
 })
-export class Product extends Model<ProductAttributes, ProductCreationAttributes>{
+export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
 
-  // Here, TS infers Data Type from the JS Type
-  // The ! means that the variable title wont be null or undefine. 
-   @Column
-   title!: string;
-
-  // Here, we set the Data Type explicity
-  // The ? means the variable can be null or undefined
-   @Column({
-      type: DataType.STRING
-   })
-   description?: string;
 
    @Column
-   price!: number;
-
-   @Column
-   discountPercentage!: number;
-
-   @Column
-   rating!: number;
-
-   @Column
-   stock!: number;
+   personId!: string;
 
    @CreatedAt
    @Column
