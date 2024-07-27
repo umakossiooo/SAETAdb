@@ -13,7 +13,7 @@ interface ProductCreationAttributes extends Optional<TutorAttributes, 'id'>{}
 @Table ({
   tableName: "Tutors"
 })
-export class Product extends Model<TutorAttributes, ProductCreationAttributes>{
+export class Tutor extends Model<TutorAttributes, ProductCreationAttributes>{
 
    @Column(DataType.STRING(128))
    public personId!: string;

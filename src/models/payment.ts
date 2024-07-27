@@ -1,5 +1,7 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
+import { Client } from './client';
+import { Course } from './course';
 
 interface PaymentAttributes{
   id: string;
@@ -14,6 +16,7 @@ interface PaymentAttributes{
   type: string;
   status: string;
   totalPayment: number;
+  activeDB: boolean;
 }
 
 interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
@@ -23,38 +26,40 @@ interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
 })
 export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>{
 
-   @Column
-   clientId!: string;
+   @ForeignKey(() => Client)
+   @Column(DataType.STRING)
+   public clientId!: string;
+   
+   @ForeignKey(() => Course)
+   @Column(DataType.STRING)
+   public courseId!: string;
 
-   @Column
-   courseId!: string;
+   @Column(DataType.NUMBER)
+   public cost!: number;
 
-   @Column
-   cost!: number;
+   @Column(DataType.NUMBER)
+   public beca!: number;
 
-   @Column
-   beca!: number;
+   @Column(DataType.NUMBER)
+   public discount!: number;
 
-   @Column
-   discount!: number;
+   @Column(DataType.NUMBER)
+   public amountPaid!: number;
 
-   @Column
-   amountPaid!: number;
+   @Column(DataType.STRING)
+   public paymentMethod!: string;
 
-   @Column
-   paymentMethod!: string;
+   @Column(DataType.DATE)
+   public paymentDate!: Date;
 
-   @Column
-   paymentDate!: Date;
+   @Column(DataType.STRING)
+   public type!: string;
 
-   @Column
-   type!: string;
+   @Column(DataType.STRING)
+   public status!: string;
 
-   @Column
-   status!: string;
-
-   @Column
-   totalPayment!: number;
+   @Column(DataType.NUMBER)
+   public totalPayment!: number;
 
    @CreatedAt
    @Column
@@ -63,4 +68,7 @@ export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>
    @UpdatedAt
    @Column
    updatedAt!: Date;
+
+   @Column({ type: DataType.BOOLEAN, defaultValue: true })
+   public activeDB!: boolean;
 }

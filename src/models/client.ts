@@ -1,4 +1,4 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasOne} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 import { Person } from './person';
 
@@ -18,8 +18,8 @@ interface ClientCreationAttributes extends Optional<ClientAttributes, 'id' | 'ac
 })
 export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
 
-
-   @Column
+   @ForeignKey(() => Person)
+   @Column(DataType.STRING)
    personId!: string;
 
    @CreatedAt
@@ -29,4 +29,10 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
    @UpdatedAt
    @Column
    updatedAt!: Date;
+
+   @HasOne(() => Person)
+   public personInformation!: Person
+
+   @Column({ type: DataType.BOOLEAN, defaultValue: true })
+   public activeDB!: boolean;
 }
