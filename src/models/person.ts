@@ -40,8 +40,16 @@ export class Person extends Model<PersonAttributes, PersonCreationAttributes> {
     public age!: number;
 
     @Column(DataType.STRING(128))
-    public gender!: string;
+    public job!: string;
 
+    @Column(DataType.STRING(128))
+    public phoneNumber!: string;
+
+    @Column(DataType.STRING(10))
+    public startingDay!: string;
+
+    @Column(DataType.STRING(128))
+    public email!: string;
 
 
     @CreatedAt

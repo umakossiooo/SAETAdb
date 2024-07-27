@@ -5,6 +5,7 @@ interface TutorAttributes{
   id: string;
   personId: string;
   degree: string;
+  activeDB: boolean;
 }
 
 interface ProductCreationAttributes extends Optional<TutorAttributes, 'id'>{}
@@ -14,11 +15,11 @@ interface ProductCreationAttributes extends Optional<TutorAttributes, 'id'>{}
 })
 export class Product extends Model<TutorAttributes, ProductCreationAttributes>{
 
-   @Column
-   personId!: string;
+   @Column(DataType.STRING(128))
+   public personId!: string;
 
-   @Column
-   degree!: string;
+   @Column(DataType.STRING(128))
+   public degree!: string;
 
    @CreatedAt
    @Column
@@ -27,4 +28,7 @@ export class Product extends Model<TutorAttributes, ProductCreationAttributes>{
    @UpdatedAt
    @Column
    updatedAt!: Date;
+
+   @Column({ type: DataType.BOOLEAN, defaultValue: true })
+   public activeDB!: boolean;
 }
