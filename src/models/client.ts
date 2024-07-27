@@ -1,11 +1,13 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasOne} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasOne, HasMany, BelongsTo} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 import { Person } from './person';
+import { Course } from './course';
 
 interface ClientAttributes{
   id: string;
   personId:string;
   personInformation: Person;
+  courses: Course[];
   activeDB: boolean;
 }
 
@@ -20,7 +22,7 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
 
    @ForeignKey(() => Person)
    @Column(DataType.STRING)
-   personId!: string;
+   public personId!: string;
 
    @CreatedAt
    @Column
@@ -30,7 +32,10 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
    @Column
    updatedAt!: Date;
 
-   @HasOne(() => Person)
+   @HasMany(() => Course)
+   public courses!: Course
+
+   @BelongsTo(() => Person)
    public personInformation!: Person
 
    @Column({ type: DataType.BOOLEAN, defaultValue: true })

@@ -1,4 +1,4 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasMany} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 import { Tutor } from './tutor';
 import { Client } from './client';
@@ -6,8 +6,8 @@ import { Client } from './client';
 interface CourseAttributes{
   id: string;
   name: string;
-  tutorId: string;
-  clientId: string;
+  tutor: Tutor[];
+  client: Client[]
   activeDB: boolean;
 }
 
@@ -21,13 +21,13 @@ export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
    @Column(DataType.STRING)
    name!: string;
  
-   @ForeignKey(() => Tutor)
+   @HasMany(() => Tutor)
    @Column(DataType.STRING)
-   tutorId!: string;
+   public tutor!: string;
 
-   @ForeignKey(() => Client)
+   @HasMany(() => Client)
    @Column(DataType.STRING)
-   clientId!: string;
+   public client!: string;
 
    @CreatedAt
    @Column

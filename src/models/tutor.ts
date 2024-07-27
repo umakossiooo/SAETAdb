@@ -1,10 +1,12 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, HasMany} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
+import { Course } from './course';
 
 interface TutorAttributes{
   id: string;
   personId: string;
   degree: string;
+  course: Course[];
   activeDB: boolean;
 }
 
@@ -28,6 +30,9 @@ export class Tutor extends Model<TutorAttributes, ProductCreationAttributes>{
    @UpdatedAt
    @Column
    updatedAt!: Date;
+
+   @HasMany(() => Course)
+   public courseInformation!: Course
 
    @Column({ type: DataType.BOOLEAN, defaultValue: true })
    public activeDB!: boolean;

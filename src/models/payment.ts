@@ -1,4 +1,4 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasMany} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 import { Client } from './client';
 import { Course } from './course';
@@ -7,6 +7,7 @@ interface PaymentAttributes{
   id: string;
   clinetId: string;
   courseId: string;
+  course: Course[]
   cost: number;
   beca: number;
   disocount: number;
@@ -33,6 +34,7 @@ export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>
    @ForeignKey(() => Course)
    @Column(DataType.STRING)
    public courseId!: string;
+
 
    @Column(DataType.NUMBER)
    public cost!: number;
@@ -68,6 +70,9 @@ export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>
    @UpdatedAt
    @Column
    updatedAt!: Date;
+
+   @HasMany(() => Course)
+   public course!: Course
 
    @Column({ type: DataType.BOOLEAN, defaultValue: true })
    public activeDB!: boolean;
