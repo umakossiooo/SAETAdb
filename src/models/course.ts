@@ -7,11 +7,11 @@ interface CourseAttributes{
   id: string;
   name: string;
   tutor: Tutor[];
-  client: Client[];
+  client?: Client[];
   activeDB: boolean;
 }
 
-export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'>{}
+export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id' | 'name' | 'tutor' | 'activeDB'>{}
 
 @Table ({
   tableName: "course",
@@ -29,7 +29,7 @@ export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
 
    @HasMany(() => Client)
    @Column(DataType.STRING)
-   public client!: string;
+   public client?: string;
 
    @CreatedAt
    @Column
