@@ -23,7 +23,9 @@ interface PaymentAttributes{
 interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
 
 @Table ({
-  tableName: "Payment"
+  tableName: "payment",
+  timestamps: true,
+  paranoid: true,
 })
 export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>{
 

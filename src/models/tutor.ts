@@ -13,7 +13,9 @@ interface TutorAttributes{
 interface ProductCreationAttributes extends Optional<TutorAttributes, 'id'>{}
 
 @Table ({
-  tableName: "Tutors"
+  tableName: "tutors",
+  timestamps: true,
+  paranoid: true,
 })
 export class Tutor extends Model<TutorAttributes, ProductCreationAttributes>{
 

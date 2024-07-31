@@ -14,7 +14,9 @@ interface CourseAttributes{
 interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'>{}
 
 @Table ({
-  tableName: "Course"
+  tableName: "course",
+  timestamps: true,
+  paranoid: true,
 })
 export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
 
