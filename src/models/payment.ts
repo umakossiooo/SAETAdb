@@ -27,7 +27,7 @@ interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
   timestamps: true,
   paranoid: true,
 })
-export class Product extends Model<PaymentAttributes, PaymentCreationAttributes>{
+export class Payment extends Model<PaymentAttributes, PaymentCreationAttributes>{
 
    @ForeignKey(() => Client)
    @Column(DataType.STRING)
