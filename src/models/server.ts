@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 // import fileUpload from 'express-fileupload';
-import dbConnection from "../db/config";
+import connect from "../../db/config";
+
 import {
     clientRouter,
     courseRouter,
@@ -48,7 +49,7 @@ class Server {
 
   async databaseConnect() {
     try {
-      await dbConnection();
+      await connect();
       console.log("DB connected");
     } catch (error) {
       console.log(error);
@@ -71,22 +72,11 @@ class Server {
 
   routes() {
     //TODO: upload
-    this.app.use(this.routePaths.roles, routerRole);
-    this.app.use(this.routePaths.userRoles, routerUserRole);
-    this.app.use(this.routePaths.users, routerUser);
-    this.app.use(this.routePaths.clients, routerClient);
-    this.app.use(this.routePaths.projects, routerProject);
-    this.app.use(this.routePaths.jobPositions, routerJobPosition);
-    this.app.use(this.routePaths.openings, routerOpening);
-    this.app.use(this.routePaths.employees, routerEmployee);
-    this.app.use(this.routePaths.employeeOpenings, routerEmployeeOpening);
-    this.app.use(this.routePaths.candidates, routerCandidates);
-    this.app.use(this.routePaths.persons, routerPersons);
-    this.app.use(this.routePaths.allocations, routerAllocations);
-    this.app.use(this.routePaths.interviews, routerInterviews);
-    this.app.use(this.routePaths.pipelines, routerPipelines);
-    this.app.use(this.routePaths.benches, routerBenches);
-    this.app.use(this.routePaths.billings, routerBillings);
+    this.app.use(this.routePaths.roles, tutorRouter);
+    this.app.use(this.routePaths.userRoles, clientRouter);
+    this.app.use(this.routePaths.users, courseRouter);
+    this.app.use(this.routePaths.clients, personRouter);
+    this.app.use(this.routePaths.projects, paymentRouter);
   }
 
   listen() {
