@@ -2,6 +2,9 @@ import { Sequelize } from "sequelize-typescript";
 import { Client } from "../src/models/client";
 import { Course } from "../src/models/course";
 import { Payment } from "../src/models/payment";
+import { Person } from "../src/models/person";
+import { Tutor } from "../src/models/tutor";
+
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,7 +16,7 @@ const connection = new Sequelize({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   dialect: "postgres",
-  models: [User, Client, Project, JobPosition, Opening, Employee, Role, UserRole, EmployeeOpening, Candidate, Person, Allocation, Interview, Pipeline, Bench, Billing],
+  models: [Course, Client, Payment, Person, Tutor],
   storage: ":memory:",
 });
 
