@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { Client } from "../models/client";
 import { Person } from "../models/person";
-import {clientcr}
-import {ClientCreationAttributes} from '../models/client';
+import { ClientCreationAttributes } from "../models/client";
 
 // Getting clients
 export const getClients = async(req: Request, res: Response) => {
