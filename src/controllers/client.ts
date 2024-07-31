@@ -8,7 +8,7 @@ export const getClients = async(req: Request, res: Response) => {
     const { from = 0, to = 5 } = req.query;
 
     // DB
-    await Client.findAll({ offset: Number(from), limit: Number(to), include: [{model: User, as: "owner_user"}, {model: Project, as:"projects"}]}).then(
+    await Client.findAll({ offset: Number(from), limit: Number(to), include: [{model: Person, as: "personInformation"}]}).then(
         clients => {
             res.json({
                 status: "success",
