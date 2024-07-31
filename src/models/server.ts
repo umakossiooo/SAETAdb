@@ -16,22 +16,11 @@ class Server {
   private port: string | undefined;
   // path for routes
   private routePaths = {
-    roles: "/api/roles",
-    userRoles: "/api/userRoles",
-    users: "/api/users",
     clients: "/api/clients",
-    projects: "/api/projects",
-    jobPositions: "/api/jobPositions",
-    openings: "/api/openings",
-    employees: "/api/employees",
-    employeeOpenings: "/api/employeeOpenings",
-    candidates: "/api/candidates",
+    courses: "/api/courses",
+    payments: "/api/payments",
     persons: "/api/persons",
-    allocations: "/api/allocations",
-    interviews: "/api/interviews",
-    pipelines: "/api/pipelines",
-    benches: "/api/benches",
-    billings: "/api/billings"
+    tutors: "/api/tutors"
   };
 
   constructor() {
@@ -72,11 +61,11 @@ class Server {
 
   routes() {
     //TODO: upload
-    this.app.use(this.routePaths.roles, tutorRouter);
-    this.app.use(this.routePaths.userRoles, clientRouter);
-    this.app.use(this.routePaths.users, courseRouter);
-    this.app.use(this.routePaths.clients, personRouter);
-    this.app.use(this.routePaths.projects, paymentRouter);
+    this.app.use(this.routePaths.clients, clientRouter);
+    this.app.use(this.routePaths.courses, courseRouter);
+    this.app.use(this.routePaths.payments, paymentRouter);
+    this.app.use(this.routePaths.persons, personRouter);
+    this.app.use(this.routePaths.tutors, tutorRouter);
   }
 
   listen() {

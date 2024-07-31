@@ -11,7 +11,7 @@ interface ClientAttributes{
   activeDB: boolean;
 }
 
-interface ClientCreationAttributes extends Optional<ClientAttributes, 'id' | 'activeDB' | 'personInformation'>{}
+export interface ClientCreationAttributes extends Optional<ClientAttributes, 'id' | 'activeDB' | 'personInformation'>{}
 
 @Table ({
   tableName: 'client',

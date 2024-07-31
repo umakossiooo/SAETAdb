@@ -4,8 +4,6 @@ import { Course } from "../src/models/course";
 import { Payment } from "../src/models/payment";
 import { Person } from "../src/models/person";
 import { Tutor } from "../src/models/tutor";
-
-
 import dotenv from "dotenv";
 dotenv.config();
 
