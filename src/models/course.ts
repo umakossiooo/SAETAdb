@@ -7,7 +7,7 @@ interface CourseAttributes{
   id: string;
   name: string;
   tutor: Tutor[];
-  client: Client[]
+  client: Client[];
   activeDB: boolean;
 }
 
