@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import { Client } from "../models/client";
 import { Person } from "../models/person";
 import { ClientCreationAttributes } from "../models/client";
+import { Course } from "../models/course";
 
 // Getting clients
 export const getClients = async(req: Request, res: Response) => {
     const { from = 0, to = 5 } = req.query;
 
     // DB
-    await Client.findAll({ offset: Number(from), limit: Number(to), include: [{model: Person, as: "personInformation"}]}).then(
+    await Client.findAll({ offset: Number(from), limit: Number(to), include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]}).then(
         clients => {
             res.json({
                 status: "success",
@@ -31,7 +32,7 @@ export const getClient = async(req: Request, res: Response) => {
     const { id } = req.params;
 
     // DB
-    await Client.findByPk(id, {include: [{model: User, as: "owner_user"}, {model: Project, as:"projects"}]}).then(
+    await Client.findByPk(id, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]}).then(
         client => {
             res.json({
                 status: "success",
@@ -53,21 +54,21 @@ export const getClient = async(req: Request, res: Response) => {
 
 // Creating a client
 export const postClient = async(req: Request, res: Response) => {
-    const { name, owner_user_id, division, details, high_growth, image, contract_pdf }:ClientCreationAttributes = req.body;
+    const { personId, personInformation, courses }:ClientCreationAttributes = req.body;
     
-    // if user not found return error because the relationship is required
-    const user = await User.findByPk(owner_user_id);
-    if (!user) {
+    // if person not found return error because the relationship is required
+    const person = await Person.findByPk(personId);
+    if (!person) {
         res.json({
             status: "error",
-            message: " User of Client not found",
+            message: "Person of Client not found",
         });
         return;
     }
     
-    await Client.create({ name, owner_user_id, division, details, high_growth, image, contract_pdf}, {include: [{model: User, as: "owner_user"}, {model: Project, as:"projects"}]}).then(
+    await Client.create({ personId, personInformation, courses}, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]}).then(
         async(client) => {
-            const clientWithAssociations = await Client.findByPk(client.id, {include: [{model: User, as: "owner_user"}, {model: Project, as:"projects"}]});
+            const clientWithAssociations = await Client.findByPk(client.id, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]});
             res.json({
                 status: "success",
                 message: "Client created",
@@ -92,12 +93,12 @@ export const updateClient = async(req: Request, res: Response) => {
     const { id } = req.params;
     const { ...resto } = req.body;
 
-    // // dont update user_id
-    // delete resto.user_id;
+    // // dont updateperson_id
+    // delete restoperson_id;
 
     await Client.update(resto, { where: { id } }).then(
         async () => {
-            const updatedClient = await Client.findByPk(id, {include: [{model: User, as: "owner_user"}, {model: Project, as:"projects"}]});
+            const updatedClient = await Client.findByPk(id, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]});
             res.json({
                 status: "success",
                 message: "Client updated",
