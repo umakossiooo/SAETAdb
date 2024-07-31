@@ -10,14 +10,14 @@ interface TutorAttributes{
   activeDB: boolean;
 }
 
-interface ProductCreationAttributes extends Optional<TutorAttributes, 'id'>{}
+export interface TutorCreationAttributes extends Optional<TutorAttributes, 'id'>{}
 
 @Table ({
   tableName: "tutors",
   timestamps: true,
   paranoid: true,
 })
-export class Tutor extends Model<TutorAttributes, ProductCreationAttributes>{
+export class Tutor extends Model<TutorAttributes, TutorCreationAttributes>{
 
    @Column(DataType.STRING(128))
    public personId!: string;

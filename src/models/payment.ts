@@ -20,7 +20,7 @@ interface PaymentAttributes{
   activeDB: boolean;
 }
 
-interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
+export interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id'>{}
 
 @Table ({
   tableName: "payment",

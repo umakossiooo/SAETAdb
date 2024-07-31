@@ -11,7 +11,7 @@ interface CourseAttributes{
   activeDB: boolean;
 }
 
-interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'>{}
+export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'>{}
 
 @Table ({
   tableName: "course",
