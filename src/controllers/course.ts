@@ -54,15 +54,15 @@ export const getCourse = async(req: Request, res: Response) => {
 
 // Creating a course
 export const postCourse = async(req: Request, res: Response) => {
-    const { name, tutors, clients }:CourseCreationAttributes = req.body;
+    const { name, tutors }:CourseCreationAttributes = req.body;
     
-    await Course.create({ name, tutors,}, {include: [{model: Client, as: "clients"}, {model: Tutor, as:"tutors"}]}).then(
-        async(client) => {
-            const clientWithAssociations = await Client.findByPk(client.id, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]});
+    await Course.create({ name, tutors}, {include: [{model: Tutor, as: "tutors"}]}).then(
+        async(course) => {
+            const courseWithAssociations = await Course.findByPk(id, {include: [{model: Tutor, as: "tutors"}, {model: Course, as:"courses"}]});
             res.json({
                 status: "success",
                 message: "Client created",
-                data: clientWithAssociations,
+                data: courseWithAssociations,
             });
         }
     ).catch(

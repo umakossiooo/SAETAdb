@@ -6,12 +6,12 @@ import { Client } from './client';
 interface CourseAttributes{
   id: string;
   name: string;
-  tutor: Tutor[];
-  client?: Client[];
+  tutors: Tutor[];
+  clients?: Client[];
   activeDB: boolean;
 }
 
-export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id' | 'name' | 'tutor' | 'activeDB'>{}
+export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id' | 'name' | 'tutors' | 'activeDB'>{}
 
 @Table ({
   tableName: "course",
@@ -24,12 +24,10 @@ export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
    name!: string;
  
    @HasMany(() => Tutor)
-   @Column(DataType.STRING)
-   public tutors!: string;
+   public tutors!: Tutor;
 
    @HasMany(() => Client)
-   @Column(DataType.STRING)
-   public client?: string;
+   public clients?: Client;
 
    @CreatedAt
    @Column
