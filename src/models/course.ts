@@ -6,8 +6,8 @@ import { Client } from './client';
 interface CourseAttributes{
   id: string;
   name: string;
-  tutor: Tutor[];
-  client: Client[]
+  tutors: Tutor[];
+  clients: Client[]
   activeDB: boolean;
 }
 
@@ -25,11 +25,11 @@ export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
  
    @HasMany(() => Tutor)
    @Column(DataType.STRING)
-   public tutor!: string;
+   public tutors!: string;
 
    @HasMany(() => Client)
    @Column(DataType.STRING)
-   public client!: string;
+   public clients!: string;
 
    @CreatedAt
    @Column
