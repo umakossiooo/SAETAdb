@@ -2,12 +2,14 @@ import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasOne
 import {Optional} from 'sequelize';
 import { Person } from './person';
 import { Course } from './course';
+import { Payment } from './payment';
 
 interface ClientAttributes{
   id: string;
-  personId:string;
+  personId: string;
   personInformation: Person;
   courses: Course[];
+  paymentInformation?: Payment;
   activeDB: boolean;
 }
 
@@ -23,6 +25,10 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
    @ForeignKey(() => Person)
    @Column(DataType.STRING)
    public personId!: string;
+
+
+   @HasOne(() => Payment)
+   public paymentInformation?: Payment;
 
    @CreatedAt
    @Column
