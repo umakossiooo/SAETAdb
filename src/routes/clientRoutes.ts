@@ -1,20 +1,20 @@
 // ImportacionesClient
 import { Router } from "express";
-import {clientsController} from "../controllers/client";
+import { clientsController } from "../controllers";
 // Controllers
 const {getClient, getClients, postClient, updateClient, deleteClient} = clientsController;
 
 // Router
-const router:Router = Router();
+const clientRouter:Router = Router();
 
-router.get('/', getClients);
+clientRouter.get('/', getClients);
 
-router.get('/:id', [], getClient);
+clientRouter.get('/:id', [], getClient);
 
-router.post('/',[], postClient);
+clientRouter.post('/',[], postClient);
 
-router.patch('/:clientId', [], updateClient);
+clientRouter.patch('/:id', [], updateClient);
 
-router.delete('/:clientId', [], deleteClient);
+clientRouter.delete('/:id', [], deleteClient);
 
-export default router;
+export default clientRouter;

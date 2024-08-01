@@ -1,24 +1,19 @@
-import { Router, Request, Response } from 'express'; 
-const tutorRouter:Router = Router(); 
+// ImportacionesTutor
+import { Router } from "express";
+import { tutorController } from "../controllers";// Controllers
+const {getTutor, getTutors, postTutor, updateTutor, deleteTutor} = tutorController;
 
-tutorRouter.get('/', (req:Request, res:Response) => { 
-res.send('Get a list of tutors') 
-}); 
+// Router
+const tutorRouter:Router = Router();
 
-tutorRouter.get('/:id', (req:Request, res:Response) => { 
-res.send(`Get the tutor ${req.params.id}`) 
-}); 
+tutorRouter.get('/', getTutors);
 
-tutorRouter.post('/', (req:Request, res:Response) => { 
-res.send(`Create a new tutor with ID: ${req.body.id}`) 
-}); 
+tutorRouter.get('/:id', [], getTutor);
 
-tutorRouter.patch('/:id', (req:Request, res:Response) => { 
-res.send(`Update the tutor ${req.params.id} with the values of ${req.body.name}, ${req.body.price} and ${req.body.stock}`) 
-}); 
+tutorRouter.post('/',[], postTutor);
 
-tutorRouter.delete('/', (req:Request, res:Response) => { 
-res.send(`Deleting the tutor ${req.body.id}`) 
-}); 
+tutorRouter.patch('/:id', [], updateTutor);
+
+tutorRouter.delete('/:id', [], deleteTutor);
 
 export default tutorRouter;
