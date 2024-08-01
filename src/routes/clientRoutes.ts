@@ -1,24 +1,20 @@
-import { Router, Request, Response } from 'express'; 
-const clientRouter:Router = Router(); 
+// ImportacionesClient
+import { Router } from "express";
+import {clientsController} from "../controllers/client";
+// Controllers
+const {getClient, getClients, postClient, updateClient, deleteClient} = clientsController;
 
-clientRouter.get('/', (req:Request, res:Response) => { 
-res.send('Get a list of clients') 
-}); 
+// Router
+const router:Router = Router();
 
-clientRouter.get('/:id', (req:Request, res:Response) => { 
-res.send(`Get the client ${req.params.id}`) 
-}); 
+router.get('/', getClients);
 
-clientRouter.post('/', (req:Request, res:Response) => { 
-res.send(`Create a new client with ID: ${req.body.id}`) 
-}); 
+router.get('/:id', [], getClient);
 
-clientRouter.patch('/:id', (req:Request, res:Response) => { 
-res.send(`Update the client ${req.params.id} with the values of ${req.body.name}, ${req.body.price} and ${req.body.stock}`) 
-}); 
+router.post('/',[], postClient);
 
-clientRouter.delete('/', (req:Request, res:Response) => { 
-res.send(`Deleting the client ${req.body.id}`) 
-}); 
+router.patch('/:clientId', [], updateClient);
 
-export default clientRouter;
+router.delete('/:clientId', [], deleteClient);
+
+export default router;
