@@ -1,50 +1,50 @@
 import { Request, Response } from "express";
-import { Client } from "../models/client";
-import { CourseCreationAttributes } from "../models/course";
 import { Course } from "../models/course";
+import { CourseCreationAttributes } from "../models/course";
 import { Tutor } from "../models/tutor";
+import { Client } from "../models/client";
 
-// Getting clients
+// Getting Courses
 export const getCourses = async(req: Request, res: Response) => {
     const { from = 0, to = 5 } = req.query;
 
     // DB
-    await Course.findAll({ offset: Number(from), limit: Number(to), include: [{model: Client, as: "clients"}, {model: Tutor, as:"tutors"}]}).then(
-        clients => {
+    await Course.findAll({ offset: Number(from), limit: Number(to), include: [{model: Course, as: "Courses"}, {model: Tutor, as:"tutors"}]}).then(
+        Courses => {
             res.json({
                 status: "success",
-                message: "Clients found",
-                data: clients,
+                message: "Courses found",
+                data: Courses,
             });
         }   
     ).catch( e =>{
         res.json({
             status: "error",
-            message: "Clients not found",
+            message: "Courses not found",
             error: e
         });
     
     });
 }
 
-// Getting a client
+// Getting a Course
 export const getCourse = async(req: Request, res: Response) => {
     const { id } = req.params;
 
     // DB
-    await Course.findByPk(id, {include: [{model: Client, as: "clients"}, {model: Tutor, as:"tutors"}]}).then(
-        client => {
+    await Course.findByPk(id, {include: [{model: Tutor, as:"tutors"}, {model: Client, as: "clients"}]}).then(
+        Course => {
             res.json({
                 status: "success",
-                message: "Client found",
-                data: client,
+                message: "Course found",
+                data: Course,
             });
         }
     ).catch(
         e => {
             res.json({
                 status: "error",
-                message: "Client not found",
+                message: "Course not found",
                 error: e
             });
         }
@@ -58,10 +58,10 @@ export const postCourse = async(req: Request, res: Response) => {
     
     await Course.create({ name, tutors}, {include: [{model: Tutor, as: "tutors"}]}).then(
         async(course) => {
-            const courseWithAssociations = await Course.findByPk(id, {include: [{model: Tutor, as: "tutors"}, {model: Course, as:"courses"}]});
+            const courseWithAssociations = await Course.findByPk(course.id, {include: [{model: Tutor, as: "tutors"}]});
             res.json({
                 status: "success",
-                message: "Client created",
+                message: "Course created",
                 data: courseWithAssociations,
             });
         }
@@ -69,7 +69,7 @@ export const postCourse = async(req: Request, res: Response) => {
         e => {
             res.json({
                 status: "error",
-                message: "Client not created",
+                message: "Course not created",
                 error: e
             });
         }
@@ -78,28 +78,28 @@ export const postCourse = async(req: Request, res: Response) => {
 
 
 
-// Updating a client
-export const updateClient = async(req: Request, res: Response) => {
+// Updating a Course
+export const updateCourse = async(req: Request, res: Response) => {
     const { id } = req.params;
     const { ...resto } = req.body;
 
     // // dont updateperson_id
     // delete restoperson_id;
 
-    await Client.update(resto, { where: { id } }).then(
+    await Course.update(resto, { where: { id } }).then(
         async () => {
-            const updatedClient = await Client.findByPk(id, {include: [{model: Person, as: "personInformation"}, {model: Course, as:"courses"}]});
+            const updatedCourse = await Course.findByPk(id, {include: [{model: Tutor, as: "tutors"}]});
             res.json({
                 status: "success",
-                message: "Client updated",
-                data: updatedClient,
+                message: "Course updated",
+                data: updatedCourse,
             });
         }
     ).catch(
         e => {
             res.json({
                 status: "error",
-                message: "Client not updated",
+                message: "Course not updated",
                 error: e
             });
         }
@@ -107,15 +107,15 @@ export const updateClient = async(req: Request, res: Response) => {
 }
 
 
-//Delete a client(soft delete)
-export const deleteClient = async(req: Request, res: Response) => {
+//Delete a Course(soft delete)
+export const deleteCourse = async(req: Request, res: Response) => {
     const { id } = req.params;
 
-    await Client.update({activeDB:false},{ where: { id } }).then(
+    await Course.update({activeDB:false},{ where: { id } }).then(
         () => {
             res.json({
                 status: "success",
-                message: "Client deleted",
+                message: "Course deleted",
                 data: {
                     id
                 },
@@ -125,7 +125,7 @@ export const deleteClient = async(req: Request, res: Response) => {
         e => {
             res.json({
                 status: "error",
-                message: "Client not deleted",
+                message: "Course not deleted",
                 error: e
             });
         }

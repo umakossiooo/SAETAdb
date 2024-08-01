@@ -2,7 +2,6 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, DeletedAt, HasOne } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
 import { Client } from './client';
-import { DefaultDeserializer } from 'v8';
 
 
 interface PersonAttributes {
