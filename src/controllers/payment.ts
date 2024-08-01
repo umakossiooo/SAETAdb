@@ -4,7 +4,7 @@ import { Payment, PaymentCreationAttributes } from "../models/payment";
 import { Course } from "../models/course";
 
 // Getting clients
-export const getPaymnets = async(req: Request, res: Response) => {
+export const getPayments = async(req: Request, res: Response) => {
     const { from = 0, to = 5 } = req.query;
 
     // DB
@@ -27,7 +27,7 @@ export const getPaymnets = async(req: Request, res: Response) => {
 }
 
 // Getting a client
-export const getPaymnet = async(req: Request, res: Response) => {
+export const getPayment = async(req: Request, res: Response) => {
     const { id } = req.params;
 
     // DB

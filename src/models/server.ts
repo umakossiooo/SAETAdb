@@ -1,13 +1,13 @@
 import express, { Application } from "express";
 // import fileUpload from 'express-fileupload';
-import connect from "../../db/config";
+import connect from "../db/config";
 
 import {
-    clientRouter,
-    courseRouter,
-    personRouter,
-    tutorRouter,
-    paymentRouter
+  clientRouter,
+  courseRouter,
+  personRouter,
+  tutorRouter,
+  paymentRouter
 } from "../routes";
 import cors from 'cors';
 
