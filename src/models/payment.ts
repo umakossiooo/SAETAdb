@@ -1,18 +1,17 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasMany} from 'sequelize-typescript';
+import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasMany, BelongsTo} from 'sequelize-typescript';
 import {Optional} from 'sequelize';
 import { Client } from './client';
 import { Course } from './course';
 
 interface PaymentAttributes{
   id: string;
-  clinetId: string;
-  courseId: string;
-  course: Course[]
+  clientId: string;
+  clientInformation: Client;
   cost: number;
-  beca: number;
+  scolarship: number;
   disocount: number;
   amountPaid: number;
-  paymentMethod: number;
+  paymentMethod: string;
   paymentDate: Date;
   type: string;
   status: string;
@@ -33,16 +32,15 @@ export class Payment extends Model<PaymentAttributes, PaymentCreationAttributes>
    @Column(DataType.STRING)
    public clientId!: string;
    
-   @ForeignKey(() => Course)
-   @Column(DataType.STRING)
-   public courseId!: string;
+   @BelongsTo(() => Client)
+   public clientInformation!: Client;
 
 
    @Column(DataType.NUMBER)
    public cost!: number;
 
    @Column(DataType.NUMBER)
-   public beca!: number;
+   public scolarchip!: number;
 
    @Column(DataType.NUMBER)
    public discount!: number;
