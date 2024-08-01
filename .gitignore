@@ -44,3 +44,4 @@ dest/*
 dist/*
 dist
 dist/
+*.js
