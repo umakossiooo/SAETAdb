@@ -43,3 +43,6 @@ tsconfig.json
 # Ignore generated JavaScript files
 dist/
 *.js
+
+# pnpm lock file
+pnpm-lock.yaml
