@@ -20,12 +20,13 @@ build/
 *.so
 *.dylib
 
-# Ignore package-lock.json for npm
+# Ignore npm/yarn package configuration
+package.json
 package-lock.json
-pnpm-lock.yaml
-
-# Ignore yarn.lock for yarn
 yarn.lock
+
+# Ignore TypeScript configuration
+tsconfig.json
 
 # Ignore environment specific files
 .env
@@ -39,9 +40,6 @@ yarn.lock
 .AppleDouble
 .LSOverride
 
-# ignore js generated files
-dest/*
-dist/*
-dist
+# Ignore generated JavaScript files
 dist/
 *.js
