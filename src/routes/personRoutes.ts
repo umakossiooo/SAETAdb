@@ -1,24 +1,19 @@
-import { Router, Request, Response } from 'express'; 
-const personRouter:Router = Router(); 
+// ImportacionesPerson
+import { Router } from "express";
+import { personController } from "../controllers";// Controllers
+const {getPerson, getPersons, postPerson, updatePerson, deletePerson} = personController;
 
-personRouter.get('/', (req:Request, res:Response) => { 
-res.send('Get a list of persons') 
-}); 
+// Router
+const personRouter:Router = Router();
 
-personRouter.get('/:id', (req:Request, res:Response) => { 
-res.send(`Get the person ${req.params.id}`) 
-}); 
+personRouter.get('/', getPersons);
 
-personRouter.post('/', (req:Request, res:Response) => { 
-res.send(`Create a new person with ID: ${req.body.id}`) 
-}); 
+personRouter.get('/:id', [], getPerson);
 
-personRouter.patch('/:id', (req:Request, res:Response) => { 
-res.send(`Update the person ${req.params.id} with the values of ${req.body.name}, ${req.body.price} and ${req.body.stock}`) 
-}); 
+personRouter.post('/',[], postPerson);
 
-personRouter.delete('/', (req:Request, res:Response) => { 
-res.send(`Deleting the person ${req.body.id}`) 
-}); 
+personRouter.patch('/:id', [], updatePerson);
+
+personRouter.delete('/:id', [], deletePerson);
 
 export default personRouter;
