@@ -1,49 +1,68 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasOne, HasMany, BelongsTo} from 'sequelize-typescript';
-import {Optional} from 'sequelize';
-import { Person } from './person';
-import { Course } from './course';
-import { Payment } from './payment';
+import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, HasMany } from 'sequelize-typescript';
+import { Enrollment } from './enrollment';
+import { Transaction } from './transaction';
+import { Optional } from 'sequelize';
 
-interface ClientAttributes{
+
+interface ClientAttributes {
   id: string;
-  personId: string;
-  personInformation: Person;
-  courses: Course[];
-  paymentInformation?: Payment;
+  name: string;
+  lastName: string;
+  lastName2: string;
+  job: string;
+  phoneNumber: string;
+  age: number;
+  email: string;
   activeDB: boolean;
 }
 
-export interface ClientCreationAttributes extends Optional<ClientAttributes, 'id' | 'activeDB' | 'personInformation' | 'personId' | 'courses'>{}
+export interface ClientCreationAttributes extends Optional<ClientAttributes, 'id' | 'activeDB'> { }
 
-@Table ({
-  tableName: 'client',
+@Table({
+  tableName: 'clients',
   timestamps: true,
   paranoid: true,
 })
-export class Client extends Model<ClientAttributes, ClientCreationAttributes>{
+export class Client extends Model<ClientAttributes, ClientCreationAttributes> {
 
-   @ForeignKey(() => Person)
-   @Column(DataType.STRING)
-   public personId!: string;
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4, primaryKey: true })
+  id!: string;
 
+  @Column({ type: DataType.STRING, allowNull: false })
+  name!: string;
 
-   @HasOne(() => Payment)
-   public paymentInformation?: Payment;
+  @Column({ type: DataType.STRING, allowNull: false })
+  lastName!: string;
 
-   @CreatedAt
-   @Column
-   createdAt!: Date;
+  @Column({ type: DataType.STRING })
+  lastName2?: string;
 
-   @UpdatedAt
-   @Column
-   updatedAt!: Date;
+  @Column({ type: DataType.STRING })
+  job?: string;
 
-   @HasMany(() => Course)
-   public courses!: Course
+  @Column({ type: DataType.STRING })
+  phoneNumber?: string;
 
-   @BelongsTo(() => Person)
-   public personInformation!: Person
+  @Column({ type: DataType.INTEGER })
+  age?: number;
 
-   @Column({ type: DataType.BOOLEAN, defaultValue: true })
-   public activeDB!: boolean;
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  email!: string;
+
+  @Column({ type: DataType.BOOLEAN, defaultValue: true })
+  activeDB!: boolean;
+
+  @CreatedAt
+  @Column
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
+
+  @HasMany(() => Enrollment)
+  enrollments!: Enrollment[];
+
+  @HasMany(() => Transaction)
+  transactions!: Transaction[];
 }

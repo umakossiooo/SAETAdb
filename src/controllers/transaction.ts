@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { Client } from '../models/client';
+import { Transaction } from '../models/transaction';
 
-export class ClientController {
-    // Create a new client
+export class TransactionController {
+    // Create a new transaction
     public static async create(req: Request, res: Response): Promise<void> {
         try {
-            const client = await Client.create(req.body);
-            res.status(201).json(client);
+            const transaction = await Transaction.create(req.body);
+            res.status(201).json(transaction);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
@@ -16,11 +16,11 @@ export class ClientController {
         }
     }
 
-    // Get all clients
+    // Get all transactions
     public static async getAll(req: Request, res: Response): Promise<void> {
         try {
-            const clients = await Client.findAll();
-            res.status(200).json(clients);
+            const transactions = await Transaction.findAll();
+            res.status(200).json(transactions);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
@@ -30,14 +30,14 @@ export class ClientController {
         }
     }
 
-    // Get a client by ID
+    // Get a transaction by ID
     public static async getById(req: Request, res: Response): Promise<void> {
         try {
-            const client = await Client.findByPk(req.params.id);
-            if (client) {
-                res.status(200).json(client);
+            const transaction = await Transaction.findByPk(req.params.id);
+            if (transaction) {
+                res.status(200).json(transaction);
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Transaction not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -48,17 +48,17 @@ export class ClientController {
         }
     }
 
-    // Update a client by ID
+    // Update a transaction by ID
     public static async update(req: Request, res: Response): Promise<void> {
         try {
-            const [updated] = await Client.update(req.body, {
+            const [updated] = await Transaction.update(req.body, {
                 where: { id: req.params.id },
             });
             if (updated) {
-                const updatedClient = await Client.findByPk(req.params.id);
-                res.status(200).json(updatedClient);
+                const updatedTransaction = await Transaction.findByPk(req.params.id);
+                res.status(200).json(updatedTransaction);
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Transaction not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -69,14 +69,14 @@ export class ClientController {
         }
     }
 
-    // Delete a client by ID
+    // Delete a transaction by ID
     public static async delete(req: Request, res: Response): Promise<void> {
         try {
-            const deleted = await Client.destroy({ where: { id: req.params.id } });
+            const deleted = await Transaction.destroy({ where: { id: req.params.id } });
             if (deleted) {
                 res.status(204).json();
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Transaction not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {

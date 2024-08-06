@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { Client } from '../models/client';
+import { Enrollment } from '../models/enrollment';
 
-export class ClientController {
-    // Create a new client
+export class EnrollmentController {
+    // Create a new enrollment
     public static async create(req: Request, res: Response): Promise<void> {
         try {
-            const client = await Client.create(req.body);
-            res.status(201).json(client);
+            const enrollment = await Enrollment.create(req.body);
+            res.status(201).json(enrollment);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
@@ -16,11 +16,11 @@ export class ClientController {
         }
     }
 
-    // Get all clients
+    // Get all enrollments
     public static async getAll(req: Request, res: Response): Promise<void> {
         try {
-            const clients = await Client.findAll();
-            res.status(200).json(clients);
+            const enrollments = await Enrollment.findAll();
+            res.status(200).json(enrollments);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
@@ -30,14 +30,14 @@ export class ClientController {
         }
     }
 
-    // Get a client by ID
+    // Get an enrollment by ID
     public static async getById(req: Request, res: Response): Promise<void> {
         try {
-            const client = await Client.findByPk(req.params.id);
-            if (client) {
-                res.status(200).json(client);
+            const enrollment = await Enrollment.findByPk(req.params.id);
+            if (enrollment) {
+                res.status(200).json(enrollment);
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Enrollment not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -48,17 +48,17 @@ export class ClientController {
         }
     }
 
-    // Update a client by ID
+    // Update an enrollment by ID
     public static async update(req: Request, res: Response): Promise<void> {
         try {
-            const [updated] = await Client.update(req.body, {
+            const [updated] = await Enrollment.update(req.body, {
                 where: { id: req.params.id },
             });
             if (updated) {
-                const updatedClient = await Client.findByPk(req.params.id);
-                res.status(200).json(updatedClient);
+                const updatedEnrollment = await Enrollment.findByPk(req.params.id);
+                res.status(200).json(updatedEnrollment);
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Enrollment not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -69,14 +69,14 @@ export class ClientController {
         }
     }
 
-    // Delete a client by ID
+    // Delete an enrollment by ID
     public static async delete(req: Request, res: Response): Promise<void> {
         try {
-            const deleted = await Client.destroy({ where: { id: req.params.id } });
+            const deleted = await Enrollment.destroy({ where: { id: req.params.id } });
             if (deleted) {
                 res.status(204).json();
             } else {
-                res.status(404).json({ message: 'Client not found' });
+                res.status(404).json({ message: 'Enrollment not found' });
             }
         } catch (error: unknown) {
             if (error instanceof Error) {

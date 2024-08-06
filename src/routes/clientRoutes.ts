@@ -1,20 +1,13 @@
-// ImportacionesClient
-import { Router } from "express";
-import { clientsController } from "../controllers";
-// Controllers
-const {getClient, getClients, postClient, updateClient, deleteClient} = clientsController;
+import { Router } from 'express';
+import { ClientController } from '../controllers/client';
 
-// Router
-const clientRouter:Router = Router();
+const clientRouter = Router();
 
-clientRouter.get('/', getClients);
+// Define routes for Client operations
+clientRouter.post('/', ClientController.create);
+clientRouter.get('/', ClientController.getAll);
+clientRouter.get('/:id', ClientController.getById);
+clientRouter.put('/:id', ClientController.update);
+clientRouter.delete('/:id', ClientController.delete);
 
-clientRouter.get('/:id', [], getClient);
-
-clientRouter.post('/',[], postClient);
-
-clientRouter.patch('/:id', [], updateClient);
-
-clientRouter.delete('/:id', [], deleteClient);
-
-export default clientRouter;
+export { clientRouter };

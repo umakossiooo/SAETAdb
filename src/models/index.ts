@@ -1,20 +1,20 @@
 import Server from "./server";
 import { Client, ClientCreationAttributes } from "./client";
 import { Course, CourseCreationAttributes } from "./course";
-import { Payment, PaymentCreationAttributes } from "./payment";
-import { Person, PersonCreationAttributes } from "./person";
-import { Tutor, TutorCreationAttributes } from "./tutor";
+import { Enrollment, EnrollmentCreationAttributes } from "./enrollment";
+import { Transaction, TransactionCreationAttributes } from "./transaction";
+
+
 
 export {
     Server,
     Client,
     Course,
-    Payment,
-    Person,
-    Tutor,
+    Enrollment,
+    Transaction,
+    EnrollmentCreationAttributes,
+    TransactionCreationAttributes,
     ClientCreationAttributes,
     CourseCreationAttributes,
-    PaymentCreationAttributes,
-    PersonCreationAttributes,
-    TutorCreationAttributes
+    
 };

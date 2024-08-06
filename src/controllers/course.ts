@@ -1,133 +1,89 @@
-import { Request, Response } from "express";
-import { Course } from "../models/course";
-import { CourseCreationAttributes } from "../models/course";
-import { Tutor } from "../models/tutor";
-import { Client } from "../models/client";
+import { Request, Response } from 'express';
+import { Course } from '../models/course';
 
-// Getting Courses
-export const getCourses = async(req: Request, res: Response) => {
-    const { from = 0, to = 5 } = req.query;
-
-    // DB
-    await Course.findAll({ offset: Number(from), limit: Number(to), include: [{model: Course, as: "Courses"}, {model: Tutor, as:"tutors"}]}).then(
-        Courses => {
-            res.json({
-                status: "success",
-                message: "Courses found",
-                data: Courses,
-            });
-        }   
-    ).catch( e =>{
-        res.json({
-            status: "error",
-            message: "Courses not found",
-            error: e
-        });
-    
-    });
-}
-
-// Getting a Course
-export const getCourse = async(req: Request, res: Response) => {
-    const { id } = req.params;
-
-    // DB
-    await Course.findByPk(id, {include: [{model: Tutor, as:"tutors"}, {model: Client, as: "clients"}]}).then(
-        Course => {
-            res.json({
-                status: "success",
-                message: "Course found",
-                data: Course,
-            });
+export class CourseController {
+    // Create a new course
+    public static async create(req: Request, res: Response): Promise<void> {
+        try {
+            const course = await Course.create(req.body);
+            res.status(201).json(course);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'An unknown error occurred' });
+            }
         }
-    ).catch(
-        e => {
-            res.json({
-                status: "error",
-                message: "Course not found",
-                error: e
-            });
+    }
+
+    // Get all courses
+    public static async getAll(req: Request, res: Response): Promise<void> {
+        try {
+            const courses = await Course.findAll();
+            res.status(200).json(courses);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'An unknown error occurred' });
+            }
         }
-    );
-    
-}
+    }
 
-// Creating a course
-export const postCourse = async(req: Request, res: Response) => {
-    const { name, tutors }:CourseCreationAttributes = req.body;
-    
-    await Course.create({ name, tutors}, {include: [{model: Tutor, as: "tutors"}]}).then(
-        async(course) => {
-            const courseWithAssociations = await Course.findByPk(course.id, {include: [{model: Tutor, as: "tutors"}]});
-            res.json({
-                status: "success",
-                message: "Course created",
-                data: courseWithAssociations,
-            });
+    // Get a course by ID
+    public static async getById(req: Request, res: Response): Promise<void> {
+        try {
+            const course = await Course.findByPk(req.params.id);
+            if (course) {
+                res.status(200).json(course);
+            } else {
+                res.status(404).json({ message: 'Course not found' });
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'An unknown error occurred' });
+            }
         }
-    ).catch(
-        e => {
-            res.json({
-                status: "error",
-                message: "Course not created",
-                error: e
+    }
+
+    // Update a course by ID
+    public static async update(req: Request, res: Response): Promise<void> {
+        try {
+            const [updated] = await Course.update(req.body, {
+                where: { id: req.params.id },
             });
+            if (updated) {
+                const updatedCourse = await Course.findByPk(req.params.id);
+                res.status(200).json(updatedCourse);
+            } else {
+                res.status(404).json({ message: 'Course not found' });
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'An unknown error occurred' });
+            }
         }
-    );
-}
+    }
 
-
-
-// Updating a Course
-export const updateCourse = async(req: Request, res: Response) => {
-    const { id } = req.params;
-    const { ...resto } = req.body;
-
-    // // dont updateperson_id
-    // delete restoperson_id;
-
-    await Course.update(resto, { where: { id } }).then(
-        async () => {
-            const updatedCourse = await Course.findByPk(id, {include: [{model: Tutor, as: "tutors"}]});
-            res.json({
-                status: "success",
-                message: "Course updated",
-                data: updatedCourse,
-            });
+    // Delete a course by ID
+    public static async delete(req: Request, res: Response): Promise<void> {
+        try {
+            const deleted = await Course.destroy({ where: { id: req.params.id } });
+            if (deleted) {
+                res.status(204).json();
+            } else {
+                res.status(404).json({ message: 'Course not found' });
+            }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(500).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'An unknown error occurred' });
+            }
         }
-    ).catch(
-        e => {
-            res.json({
-                status: "error",
-                message: "Course not updated",
-                error: e
-            });
-        }
-    );
-}
-
-
-//Delete a Course(soft delete)
-export const deleteCourse = async(req: Request, res: Response) => {
-    const { id } = req.params;
-
-    await Course.update({activeDB:false},{ where: { id } }).then(
-        () => {
-            res.json({
-                status: "success",
-                message: "Course deleted",
-                data: {
-                    id
-                },
-            });
-        }
-    ).catch(
-        e => {
-            res.json({
-                status: "error",
-                message: "Course not deleted",
-                error: e
-            });
-        }
-    );
+    }
 }

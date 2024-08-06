@@ -1,42 +1,38 @@
-import {Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, HasMany} from 'sequelize-typescript';
-import {Optional} from 'sequelize';
-import { Tutor } from './tutor';
-import { Client } from './client';
+import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, HasMany } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
+import { Enrollment } from './enrollment';
 
-interface CourseAttributes{
+interface CourseAttributes {
   id: string;
-  name: string;
-  tutors: Tutor[];
-  clients?: Client[];
-  activeDB: boolean;
+  courseName: string;
+  courseDescription: string;
 }
 
-export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id' | 'name' | 'tutors' | 'activeDB'>{}
+export interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'> { }
 
-@Table ({
-  tableName: "course",
+@Table({
+  tableName: 'courses',
   timestamps: true,
-  paranoid: true,
 })
-export class Course extends Model<CourseAttributes, CourseCreationAttributes>{
+export class Course extends Model<CourseAttributes, CourseCreationAttributes> {
 
-   @Column(DataType.STRING)
-   name!: string;
- 
-   @HasMany(() => Tutor)
-   public tutors!: Tutor;
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4, primaryKey: true })
+  id!: string;
 
-   @HasMany(() => Client)
-   public clients?: Client;
+  @Column({ type: DataType.STRING, allowNull: false })
+  courseName!: string;
 
-   @CreatedAt
-   @Column
-   createdAt!: Date;
+  @Column({ type: DataType.STRING })
+  courseDescription?: string;
 
-   @UpdatedAt
-   @Column
-   updatedAt!: Date;
+  @CreatedAt
+  @Column
+  createdAt!: Date;
 
-   @Column({ type: DataType.BOOLEAN, defaultValue: true })
-   public activeDB!: boolean;
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
+
+  @HasMany(() => Enrollment)
+  enrollments!: Enrollment[];
 }

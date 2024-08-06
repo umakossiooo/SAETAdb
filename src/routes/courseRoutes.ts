@@ -1,19 +1,14 @@
-// ImportacionesCourse
-import { Router } from "express";
-import { courseController } from "../controllers";// Controllers
-const {getCourse, getCourses, postCourse, updateCourse, deleteCourse} = courseController;
+import { Router } from 'express';
+import { CourseController } from '../controllers/course';
 
-// Router
-const courseRouter:Router = Router();
+const courseRouter = Router();
 
-courseRouter.get('/', getCourses);
+// Define routes for Course operations
+courseRouter.post('/', CourseController.create);
+courseRouter.get('/', CourseController.getAll);
+courseRouter.get('/:id', CourseController.getById);
+courseRouter.put('/:id', CourseController.update);
+courseRouter.delete('/:id', CourseController.delete);
 
-courseRouter.get('/:id', [], getCourse);
+export { courseRouter };
 
-courseRouter.post('/',[], postCourse);
-
-courseRouter.patch('/:id', [], updateCourse);
-
-courseRouter.delete('/:id', [], deleteCourse);
-
-export default courseRouter;

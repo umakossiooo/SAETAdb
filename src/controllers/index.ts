@@ -1,13 +1,12 @@
 import * as clientsController from "./client";
 import * as courseController from "./course";
-import * as paymentController from "./payment";
-import * as personController from "./person";
-import * as tutorController from "./tutor";
+import * as enrollmentController from "./enrollment"
+import * as transactionController from "./transaction"
 
 export {
     clientsController,
     courseController,
-    paymentController,
-    personController,
-    tutorController
+    transactionController,
+    enrollmentController,
+
 };

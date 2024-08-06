@@ -1,13 +1,12 @@
-import clientRouter from './clientRoutes'; 
-import courseRouter from './courseRoutes';
-import personRouter from './personRoutes';
-import tutorRouter from './tutorRoutes';
-import paymentRouter from './paymentRoutes';
+import { enrollmentRouter } from './enrollmentRoutes';
+import { clientRouter } from './clientRoutes';
+import { courseRouter } from './courseRoutes';
+import { transactionRouter } from './transactionRoutes';
+
 
 export {
     clientRouter,
     courseRouter,
-    personRouter,
-    tutorRouter,
-    paymentRouter
+    enrollmentRouter,
+    transactionRouter,
 }

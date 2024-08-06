@@ -1,13 +1,11 @@
 import express, { Application } from "express";
-// import fileUpload from 'express-fileupload';
 import connect from "../db/config";
 
 import {
   clientRouter,
   courseRouter,
-  personRouter,
-  tutorRouter,
-  paymentRouter
+  enrollmentRouter,  // Added for Enrollment routes
+  transactionRouter  // Added for Transaction routes
 } from "../routes";
 import cors from 'cors';
 
@@ -18,9 +16,8 @@ class Server {
   private routePaths = {
     clients: "/api/clients",
     courses: "/api/courses",
-    payments: "/api/payments",
-    persons: "/api/persons",
-    tutors: "/api/tutors"
+    enrollments: "/api/enrollment",
+    transactions: "api/transaction"
   };
 
   constructor() {
@@ -36,16 +33,16 @@ class Server {
     this.routes();
   }
 
-  async databaseConnect() {
+  private async databaseConnect() {
     try {
       await connect();
       console.log("DB connected");
     } catch (error) {
-      console.log(error);
+      console.log("Error connecting to DB", error);
     }
   }
 
-  middlewares() {
+  private middlewares() {
     // // CORS
     this.app.use(cors());
 
@@ -63,9 +60,8 @@ class Server {
     //TODO: upload
     this.app.use(this.routePaths.clients, clientRouter);
     this.app.use(this.routePaths.courses, courseRouter);
-    this.app.use(this.routePaths.payments, paymentRouter);
-    this.app.use(this.routePaths.persons, personRouter);
-    this.app.use(this.routePaths.tutors, tutorRouter);
+    this.app.use(this.routePaths.enrollments, enrollmentRouter);
+    this.app.use(this.routePaths.transactions, transactionRouter);
   }
 
   listen() {
