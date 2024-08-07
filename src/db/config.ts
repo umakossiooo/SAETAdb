@@ -6,7 +6,7 @@ import { Transaction } from '../models/transaction';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+  
 const connection = new Sequelize({
   database: process.env.DB_NAME,
   username: process.env.DB_USER,
@@ -15,7 +15,7 @@ const connection = new Sequelize({
   port: Number(process.env.DB_PORT),
   dialect: 'postgres',
   models: [Client, Course, Enrollment, Transaction], // Ensure only the defined models are included
-  logging: console.log, // Optional: Log SQL queries to console for debugging
+  logging: false, // Optional: Log SQL queries to console for debugging
 });
 
 async function connect() {

@@ -11,7 +11,7 @@ import cors from 'cors';
 
 class Server {
   private app: Application;
-  private port: string | undefined;
+  private port: string;
   // path for routes
   private routePaths = {
     clients: "/api/clients",
@@ -22,7 +22,7 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.port = process.env.PORT;
+    this.port = process.env.PORT || '8080';
 
     // DB
     this.databaseConnect();
