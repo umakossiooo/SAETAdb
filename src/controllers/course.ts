@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Course } from '../models/course';
+import { where } from 'sequelize';
 
 export class CourseController {
     // Create a new course
@@ -51,16 +52,29 @@ export class CourseController {
     // Update a course by ID
     public static async update(req: Request, res: Response): Promise<void> {
         try {
+            // Log para depuración: ID recibido y datos del cuerpo de la solicitud
+            console.log('ID recibido:', req.params.id);
+            console.log('Datos para actualizar:', req.body);
+    
+            // Intento de actualización del curso basado en el ID proporcionado y el cuerpo de la solicitud
             const [updated] = await Course.update(req.body, {
                 where: { id: req.params.id },
             });
+    
+            // Log para depuración: resultado de la operación de actualización
+            console.log('Resultado de la actualización:', updated);
+    
             if (updated) {
-                const updatedCourse = await Course.findByPk(req.params.id);
-                res.status(200).json(updatedCourse);
+                // Si la actualización es exitosa (es decir, se actualizó una o más filas)
+                res.status(204).json();
             } else {
-                res.status(404).json({ message: 'Course not found' });
+                // Si no se actualizó ninguna fila, devuelve un estado 404 con un mensaje de error
+                console.log('El curso no se encontró o no se pudo actualizar.');
+                res.status(404).json({ message: 'Course nooot found' });
             }
         } catch (error: unknown) {
+            // Manejo de errores durante la operación de actualización
+            console.error('Error durante la actualización del curso:', error);
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
             } else {
@@ -68,6 +82,9 @@ export class CourseController {
             }
         }
     }
+    
+    
+
 
     // Delete a course by ID
     public static async delete(req: Request, res: Response): Promise<void> {

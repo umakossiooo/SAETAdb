@@ -13,6 +13,7 @@ interface ClientAttributes {
   phoneNumber: string;
   age: number;
   email: string;
+  scholarship: string;
   activeDB: boolean;
 }
 
@@ -48,6 +49,9 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes> {
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email!: string;
+
+  @Column({ type: DataType.STRING})
+  scholarship?: string;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: true })
   activeDB!: boolean;

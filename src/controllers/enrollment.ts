@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { Enrollment } from '../models/enrollment';
+import { Client } from '../models';
+import { Course } from '../models';
 
 export class EnrollmentController {
     // Create a new enrollment
@@ -17,9 +19,15 @@ export class EnrollmentController {
     }
 
     // Get all enrollments
+    // Get all enrollments with client and course details
     public static async getAll(req: Request, res: Response): Promise<void> {
         try {
-            const enrollments = await Enrollment.findAll();
+            const enrollments = await Enrollment.findAll({
+                include: [
+                    { model: Client, as: 'client' },
+                    { model: Course, as: 'course' }
+                ]
+            });
             res.status(200).json(enrollments);
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -30,16 +38,27 @@ export class EnrollmentController {
         }
     }
 
+
     // Get an enrollment by ID
-    public static async getById(req: Request, res: Response): Promise<void> {
+    public static async getByCourseId(req: Request, res: Response): Promise<void> {
         try {
-            const enrollment = await Enrollment.findByPk(req.params.id);
-            if (enrollment) {
-                res.status(200).json(enrollment);
+            const { courseId } = req.params;
+            console.log("Request received for courseId:", courseId); // Agrega este log
+    
+            const enrollments = await Enrollment.findAll({
+                where: { courseId },
+                include: [Client, Course], 
+            });
+    
+            console.log("Enrollments found:", enrollments); // Log para verificar los resultados
+            
+            if (enrollments.length > 0) {
+                res.status(200).json(enrollments);
             } else {
-                res.status(404).json({ message: 'Enrollment not found' });
+                res.status(404).json({ message: 'No enrollments found for this course.' });
             }
         } catch (error: unknown) {
+            console.error("Error fetching enrollments:", error);
             if (error instanceof Error) {
                 res.status(500).json({ message: error.message });
             } else {
@@ -47,6 +66,9 @@ export class EnrollmentController {
             }
         }
     }
+    
+    
+    
 
     // Update an enrollment by ID
     public static async update(req: Request, res: Response): Promise<void> {

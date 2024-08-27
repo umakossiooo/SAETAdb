@@ -7,6 +7,8 @@ import { Optional } from 'sequelize';
 interface EnrollmentAttributes {
     id: string;
     enrollmentDate: Date;
+    courseId: string;
+    clientId: string;
 }
 
 export interface EnrollmentCreationAttributes extends Optional<EnrollmentAttributes, 'id'> { }

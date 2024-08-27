@@ -6,7 +6,7 @@ const enrollmentRouter = Router();
 // Define routes for Enrollment operations
 enrollmentRouter.post('/', EnrollmentController.create);
 enrollmentRouter.get('/', EnrollmentController.getAll);
-enrollmentRouter.get('/:id', EnrollmentController.getById);
+enrollmentRouter.get('/course/:courseId', EnrollmentController.getByCourseId);
 enrollmentRouter.put('/:id', EnrollmentController.update);
 enrollmentRouter.delete('/:id', EnrollmentController.delete);
 

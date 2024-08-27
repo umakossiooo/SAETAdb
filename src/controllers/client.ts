@@ -5,18 +5,6 @@ export class ClientController {
     // Create a new client
     public static async create(req: Request, res: Response): Promise<void> {
         console.log("Request Body:", req.body); // Log the request body for debugging
-
-        // Validate the request body
-        const { name, lastName, email } = req.body;
-        console.log("Received name:", name); // Log individual fields for debugging
-        console.log("Received lastName:", lastName);
-        console.log("Received email:", email);
-
-        if (!name || !lastName || !email) {
-            res.status(400).json({ message: 'Name, last name, and email are required' });
-            return;
-        }
-
         try {
             const client = await Client.create(req.body);
             res.status(201).json(client);

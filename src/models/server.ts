@@ -17,8 +17,9 @@ class Server {
     clients: "/api/clients",
     courses: "/api/courses",
     enrollments: "/api/enrollment",
-    transactions: "api/transaction"
+    transactions: "/api/transaction"
   };
+
 
   constructor() {
     this.app = express();
