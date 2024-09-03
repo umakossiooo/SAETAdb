@@ -1,13 +1,12 @@
-import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, BelongsTo, AllowNull } from 'sequelize-typescript';
+import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Client } from './client';
 import { Enrollment } from './enrollment';
 import { Optional } from 'sequelize';
+import { Course } from './course';
 
 interface TransactionAttributes {
     id: string;
-    course: Enrollment;
     cost: number;
-    scholarship: Client
     promotion: number;
     amountToPay: number;
     paymentMethod: string;
@@ -16,9 +15,10 @@ interface TransactionAttributes {
     folio: string;
     oneTimePayment: boolean;
     amountToPay2: string;
-    status: string; // e.g., 'paid', 'unpaid'
+    status: string;
     clientId: string;
     courseId: string;
+    enrollmentId: string;
 }
 
 export interface TransactionCreationAttributes extends Optional<TransactionAttributes, 'id'> { }
@@ -27,24 +27,31 @@ export interface TransactionCreationAttributes extends Optional<TransactionAttri
     tableName: 'transactions',
     timestamps: true,
 })
-export class Transaction extends Model<TransactionAttributes, TransactionCreationAttributes> {
+export class Transaction extends Model<TransactionAttributes> {
 
     @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4, primaryKey: true })
     id!: string;
 
-    @ForeignKey(() => Enrollment) // Referencia a Enrollment (Course)
+    @ForeignKey(() => Enrollment)
     @Column({ type: DataType.UUID, allowNull: true })
-    courseId!: string;
+    enrollmentId!: string;
 
     @BelongsTo(() => Enrollment)
-    course!: Enrollment;
+    enrollment!: Enrollment;
 
-    @ForeignKey(() => Client) // Referencia a Client (Scholarship)
-    @Column({ type: DataType.UUID, allowNull: true })
-    scholarshipId!: string;
+    @ForeignKey(() => Client)
+    @Column({ type: DataType.UUID, allowNull: false })
+    clientId!: string;
 
     @BelongsTo(() => Client)
-    scholarship!: Client;
+    client!: Client;
+
+    @ForeignKey(() => Course)
+    @Column({ type: DataType.UUID, allowNull: false })
+    courseId!: string;
+
+    @BelongsTo(() => Course)
+    course!: Course;
 
     @Column({ type: DataType.FLOAT, allowNull: false })
     cost!: number;
@@ -74,7 +81,7 @@ export class Transaction extends Model<TransactionAttributes, TransactionCreatio
     amountToPay2!: string;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    status!: string; // e.g., 'paid', 'unpaid'
+    status!: string;
 
     @CreatedAt
     @Column
@@ -83,13 +90,4 @@ export class Transaction extends Model<TransactionAttributes, TransactionCreatio
     @UpdatedAt
     @Column
     updatedAt!: Date;
-
-    @ForeignKey(() => Client)
-    @Column({ type: DataType.UUID, allowNull: false })
-    clientId!: string;
-
-    @BelongsTo(() => Client)
-    client!: Client;
-
 }
-

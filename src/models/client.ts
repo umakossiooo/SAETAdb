@@ -3,7 +3,6 @@ import { Enrollment } from './enrollment';
 import { Transaction } from './transaction';
 import { Optional } from 'sequelize';
 
-
 interface ClientAttributes {
   id: string;
   name: string;

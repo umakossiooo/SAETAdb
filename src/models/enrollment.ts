@@ -1,8 +1,8 @@
-import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Model, Column, CreatedAt, UpdatedAt, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { Client } from './client';
 import { Course } from './course';
 import { Optional } from 'sequelize';
-
+import { Transaction } from './transaction';
 
 interface EnrollmentAttributes {
     id: string;
@@ -47,4 +47,7 @@ export class Enrollment extends Model<EnrollmentAttributes, EnrollmentCreationAt
 
     @BelongsTo(() => Course)
     course!: Course;
+
+    @HasMany(() => Transaction)
+    transactions!: Transaction[];
 }
